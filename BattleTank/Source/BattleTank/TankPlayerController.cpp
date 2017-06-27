@@ -34,16 +34,12 @@ void ATankPlayerController::AimTowardsCrosshair() {
 		return;
 	}
 
-	FVector hitLocation; // OUT parameter
+	FVector hitLocation; // out parameter
 	if (GetSightRayHitLocation(hitLocation)) {
-		UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *hitLocation.ToString());
+		//UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"), *hitLocation.ToString());
+		// TODO: tell controlled tank to aim at this location
+		GetControlledTank()->AimAt(hitLocation);
 	}
-
-	
-	// get world location of linetrace through crosshair
-	// if it hits the landscape
-		// tell controlled tank to aim at this point
-
 }
 
 bool ATankPlayerController::GetSightRayHitLocation(FVector& hitLocation) const {
@@ -61,23 +57,12 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& hitLocation) const {
 	if (GetLookDirection(screenLocation, lookDirection)) {
 
 		// line-trace along that look direction, and see what we hit (up to max range)
-		//FHitResult hitResult;
 		bool bGotHit = GetLookVectorHitLocation(lookDirection, hitLocation);
-		//	GetPawn()->GetActorLocation() + FVector(0,0,100),
-		//	GetPawn()->GetActorLocation() + lookDirection * lineTraceRange,
-		//	hitResult
-		//);
-		if (bGotHit || true) {
-			UE_LOG(LogTemp, Warning, TEXT("World direction: %s"), *hitLocation.ToString());
+		if (bGotHit) {
+			return true;
 		}
-
 	}
 
-	
-	
-
-	//bHitActor = GetWorld()->GetFirstPlayerController()->ActorLineTraceSingle(hitResult, GetPawn()->GetActorLocation(), hitLocation, ECollisionChannel::ECC_PhysicsBody, FName());
-	//hitLocation = hitResult.Location;
 	return false;
 }
 
@@ -91,7 +76,6 @@ bool ATankPlayerController::GetLookDirection(FVector2D screenLocation, FVector& 
 	);
 }
 
-//bool ATankPlayerController::GetLookVectorHitLocation(FVector start, FVector end, FHitResult& outHitResult) const {
 bool ATankPlayerController::GetLookVectorHitLocation(FVector lookDirection, FVector& outHitLocation) const {
 	FHitResult hitResult;
 	FVector start = PlayerCameraManager->GetCameraLocation();
