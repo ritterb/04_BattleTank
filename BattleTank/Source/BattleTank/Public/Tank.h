@@ -2,8 +2,9 @@
 
 #pragma once
 
+#include "TankAimingComponent.h"
 #include "GameFramework/Pawn.h"
-#include "Tank.generated.h"
+#include "Tank.generated.h" // put other includes before this one
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -14,13 +15,15 @@ public:
 	void AimAt(FVector hitLocation);
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	UTankAimingComponent* tankAimingComponent = nullptr;
 
 private:
 	// Sets default values for this pawn's properties
 	ATank();
 
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
