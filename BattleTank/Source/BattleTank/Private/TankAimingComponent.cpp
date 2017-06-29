@@ -37,8 +37,37 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 }
 
 void UTankAimingComponent::AimAt(FVector hitLocation, float launchSpeed) {
-	FString thisTankName = GetOwner()->GetName();
-	FVector barrelLocation = barrel->GetComponentLocation();
-	UE_LOG(LogTemp, Warning, TEXT("Firing at %f"), launchSpeed);
+	if (!barrel) {
+		UE_LOG(LogTemp, Error, TEXT("Missing barrel reference for %s"), *GetOwner()->GetName());
+		return;
+	}
+
+	FVector outLaunchVelocity;
+	FVector startLocation = barrel->GetSocketLocation(FName("Projectile"));
+
+	// calculate the launch velocity
+	bool validVelocity = UGameplayStatics::SuggestProjectileVelocity(
+		this,
+		outLaunchVelocity,
+		startLocation,
+		hitLocation,
+		launchSpeed,
+		false,
+		0.f,
+		0.f,
+		ESuggestProjVelocityTraceOption::DoNotTrace,
+		FCollisionResponseParams::DefaultResponseParam,
+		TArray<AActor*>(),
+		true
+	);
+
+	if (validVelocity) {
+		FVector aimDirection = outLaunchVelocity.GetSafeNormal();
+		UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *GetOwner()->GetName(), *aimDirection.ToString());
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("No velocity solution for %s"), *GetOwner()->GetName());
+		return;
+	}
 }
 
