@@ -18,24 +18,6 @@ void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* barrelToSet)
 	barrel = barrelToSet;
 }
 
-// Called when the game starts
-void UTankAimingComponent::BeginPlay()
-{
-	Super::BeginPlay();
-
-	// ...
-	
-}
-
-
-// Called every frame
-void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
-}
-
 void UTankAimingComponent::AimAt(FVector hitLocation, float launchSpeed) {
 	if (!barrel) {
 		UE_LOG(LogTemp, Error, TEXT("Missing barrel reference for %s"), *GetOwner()->GetName());
@@ -63,7 +45,8 @@ void UTankAimingComponent::AimAt(FVector hitLocation, float launchSpeed) {
 
 	if (validVelocity) {
 		FVector aimDirection = outLaunchVelocity.GetSafeNormal();
-		UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *GetOwner()->GetName(), *aimDirection.ToString());
+		//UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *GetOwner()->GetName(), *aimDirection.ToString());
+		MoveBarrelTowards(aimDirection);
 	}
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("No velocity solution for %s"), *GetOwner()->GetName());
@@ -71,3 +54,19 @@ void UTankAimingComponent::AimAt(FVector hitLocation, float launchSpeed) {
 	}
 }
 
+void UTankAimingComponent::MoveBarrelTowards(FVector aimDirection) {
+	// get refernce to turret
+	// convert aim direction to 2D vector in XY plane of tank
+	// rotate turret to match direction of 2D vector
+
+	FRotator barrelRotator = barrel->GetForwardVector().Rotation();
+	FRotator aimAsRotator = aimDirection.Rotation();
+	FRotator deltaRotator = aimAsRotator - barrelRotator;
+
+	UE_LOG(LogTemp, Warning, TEXT("aimAsRotator: %s"), *aimAsRotator.ToString());
+
+	// move the barrel the right amount this frame
+
+	// give a max elevation speed, and the frame time
+
+}
