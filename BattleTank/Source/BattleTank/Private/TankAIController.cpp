@@ -2,6 +2,7 @@
 
 #include "BattleTank.h"
 #include "TankAIController.h"
+#include "Public/Tank.h"
 
 void ATankAIController::BeginPlay() {
 	Super::BeginPlay();
