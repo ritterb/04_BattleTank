@@ -55,16 +55,13 @@ void UTankAimingComponent::AimAt(FVector hitLocation, float launchSpeed) {
 }
 
 void UTankAimingComponent::MoveBarrelTowards(FVector aimDirection) {
-	// get refernce to turret
-	// convert aim direction to 2D vector in XY plane of tank
-	// rotate turret to match direction of 2D vector
-
+	/// work out difference between current barrel rotation and aimDirection
 	FRotator barrelRotator = barrel->GetForwardVector().Rotation();
 	FRotator aimAsRotator = aimDirection.Rotation();
 	FRotator deltaRotator = aimAsRotator - barrelRotator;
 
 	//UE_LOG(LogTemp, Warning, TEXT("aimAsRotator: %s"), *aimAsRotator.ToString());
 
-	barrel->Elevate(5); // TODO: remove magic number
+	barrel->Elevate(deltaRotator.Pitch);
 
 }
