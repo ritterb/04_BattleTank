@@ -23,6 +23,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretReference(UTankTurret* turretToSet);
 
+	UFUNCTION(BlueprintCallable, Category = Fire)
+	void Fire();
+
 protected:
 	UTankAimingComponent* tankAimingComponent = nullptr;
 
@@ -37,5 +40,5 @@ private:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
 	UPROPERTY(EditAnywhere, Category = Firing)
-	float launchSpeed = 100000; // TODO: find sensible default value
+	float launchSpeed = 4000.f;
 };

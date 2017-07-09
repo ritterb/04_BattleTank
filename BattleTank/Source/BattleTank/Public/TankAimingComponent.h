@@ -19,8 +19,6 @@ public:
 	UTankAimingComponent();
 	void SetBarrelReference(UTankBarrel* barrelToSet);
 	void SetTurretReference(UTankTurret* turretToSet);
-	
-	// TODO: add SetTurretReference
 
 	void AimAt(FVector hitLocation, float launchSpeed);
 
