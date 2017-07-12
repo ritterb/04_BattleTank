@@ -34,14 +34,14 @@ void ATank::Fire() {
 		return; 
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("Fire() called from %s"), *GetName());
-
 	// spawn a projectile at socket location
-	GetWorld()->SpawnActor<AProjectile>(
+	AProjectile* projectile = GetWorld()->SpawnActor<AProjectile>(
 		projectileBlueprint,
 		barrel->GetSocketLocation("Projectile"),
 		barrel->GetSocketRotation("Projectile")
 	);
+
+	projectile->LaunchProjectile(launchSpeed);
 }
 
 // Called when the game starts or when spawned
