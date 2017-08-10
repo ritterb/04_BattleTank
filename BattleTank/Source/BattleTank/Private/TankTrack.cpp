@@ -11,7 +11,7 @@ void UTankTrack::BeginPlay() {
 }
 
 void UTankTrack::SetThrottle(float throttle) {
-	UE_LOG(LogTemp, Warning, TEXT("%s throttle: %f"), *GetName(), throttle);
+	//UE_LOG(LogTemp, Warning, TEXT("%s throttle: %f"), *GetName(), throttle);
 
 	// TODO: clamp actual throttle value to limit max speed
 

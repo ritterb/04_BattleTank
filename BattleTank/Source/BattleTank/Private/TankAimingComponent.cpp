@@ -58,7 +58,7 @@ void UTankAimingComponent::AimAt(FVector hitLocation, float launchSpeed) {
 		MoveBarrelTowards(aimDirection);
 	}
 	else {
-		UE_LOG(LogTemp, Warning, TEXT("No velocity solution for %s"), *GetOwner()->GetName());
+		//UE_LOG(LogTemp, Warning, TEXT("No velocity solution for %s"), *GetOwner()->GetName());
 		return;
 	}
 }
